@@ -154,7 +154,7 @@ class TreeBuilder
         this.ancestor = this.familyTree.getAncestor(this.familyTree.indis);
         this.familyTree.setGenerations(this.ancestor);
         this.levelX = this.familyTree.calcXwidth();
-        this.familyTree.calcXY(this.ancestor, this.levelX, this.levelY, this.levelYMax, false);
+        this.familyTree.calcXY(this.ancestor, this.levelX, this.levelY, this.levelYMax, false, 0);
         let maxX = this.getMaxLevelX();
         let maxY = this.getMaxLevelY();
         this.treeBounds = [maxX, maxY];
