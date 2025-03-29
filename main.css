@@ -1,5 +1,5 @@
 body {
-    background-color: rgb(41, 61, 41);
+    background-color: rgb(238, 238, 238);
 }
 
 #scaleSlider {
@@ -13,6 +13,7 @@ body {
     box-sizing: border-box;
     color: #36395A;
     padding-top: 5px;
+    padding-bottom: 5px;
     outline: none;
 }
 
@@ -45,6 +46,9 @@ body {
     height: 100vh;
     z-index: 100;
     font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    border: #bfbfbf;
+    border-right-style: solid;
+    border-right-width: 3px;
 }
 
 #sidebarIndiData {
@@ -63,8 +67,15 @@ body {
     font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
+#downloadFamilyBtn {
+    width: 90%;
+    text-align: center;
+}
+
 #editFamilyBtn {
     margin-top: 1vh;
+    width: 90%;
+    text-align: center;
 }
 
 #updateBranchInput {
@@ -74,6 +85,8 @@ body {
 
 #updateBranchInputLabel {
     margin-top: 1vh;
+    width: 90%;
+    text-align: center;
 }
 
 .defaultBtn {
