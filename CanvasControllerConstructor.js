@@ -26,7 +26,7 @@ class CanvasController
         
         this.setCanvasSizesAndBounds();
         this.treeBuilder.drawFamily(this.treeBuilder.ancestor, this.treeBuilder.defaultColor);
-        this.treeBuilder.drawLines(this.familyTree.indis, this.treeBuilder.linesColor);
+        this.treeBuilder.drawLines(this.familyTree.indis, this.treeBuilder.linesColor, this.treeBuilder.lineWidth);
         this.treeBuilder.drawStrokes(this.familyTree.indis, this.treeBuilder.strokesColor);
         this.treeBuilder.drawNames(this.familyTree.indis, this.treeBuilder.textColor);
         if (this.editMode == true)
@@ -57,6 +57,8 @@ class CanvasController
                 return;
             }
             else if (checkClickFlag == -1) {
+                if (this.selectedIndi.id == indi.id)
+                    this.unselect(this.selectedIndi, newIndiNameInput);
                 this.deleteIndi(indi, newIndiNameInput);
                 return;
             }
@@ -64,12 +66,56 @@ class CanvasController
             //     this.unselect(this.selectedIndi, newIndiNameInput);
         });
     }
+    
+    toggleElement(elementName, state) {
+        let element = this.document.getElementById(elementName);
+        
+        if (state == 'passive') {
+            element.classList.remove(elementName + '_active');
+            element.classList.toggle(elementName + '_passive');
+        }
+        else if (state == 'active') {
+            element.classList.remove(elementName + '_passive');
+            element.classList.toggle(elementName + '_active');
+        }
+    }
+
+    openSidebar() {
+        this.toggleElement('sidebar', 'active');
+        this.toggleElement('toggleSidebarBtnImg', 'active');
+    }
+
+    closeSidebar() {
+        this.toggleElement('sidebar', 'passive');
+        this.toggleElement('toggleSidebarBtnImg', 'passive');
+    }
 
     unselect(indi, newIndiNameInput) {
         this.treeBuilder.drawNames([indi], this.treeBuilder.textColor);
         this.treeBuilder.drawCrosses([indi], this.treeBuilder.crossesColor);
         this.selectedIndi = null;
         this.setInputNameSettings(newIndiNameInput, indi);
+    }
+
+    select(indi) {
+        this.openSidebar();
+        this.updateSidebar(indi);
+    }
+
+    updateSidebar(indi) {
+        let indiNameText = (indi == null ? "Неизвестно" : indi.name);
+        let indiIdText = (indi == null ? "Неизвестно" : indi.id);
+        let indiGenerationText = (indi == null ? "Неизвестно" : indi.generation);
+        let indiFatherText = (indi == null ? "Неизвестно" : (indi.ancestor == true ? "Неизвестно" : indi.father.name));
+        let indiBirthDateText = (indi == null ? "Неизвестно" : indi.birthDate);
+        let indiDeathDateText = (indi == null ? "Неизвестно" : indi.deathDate);
+
+        this.document.getElementById("indiName").innerText = indiNameText;
+        this.document.getElementById("indiId").innerText = "id: " + indiIdText;
+        this.document.getElementById("indiGeneration").innerText = "Поколение: " + indiGenerationText;
+        this.document.getElementById("indiFather").innerText = "Отец: " + indiFatherText;
+        this.document.getElementById("indiBirthDate").innerText = "Дата рождения: " + indiBirthDateText;
+        this.document.getElementById("indiDeathDate").innerText = "Дата смерти: " + indiDeathDateText;
     }
 
     startEditName(indi, newIndiNameInput) {
