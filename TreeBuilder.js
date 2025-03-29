@@ -1,6 +1,6 @@
 class TreeBuilder
 {
-    constructor(ctx, familyTree, canvasScale, boxHeight, boxLength, yGapBtwnBrothers, extraYGapBtwnCousins, xGapBtwnFrames, defaultColor, highlightColor, linesColor, highlightLinesColor, textColor, highlightTextColor, strokesColor, highlightStrokesColor, bgColor, bgLinesColor, crossesColor) {
+    constructor(ctx, familyTree, canvasScale, boxHeight, boxLength, yGapBtwnBrothers, extraYGapBtwnCousins, xGapBtwnFrames, lineWidth, defaultColor, highlightColor, linesColor, highlightLinesColor, textColor, highlightTextColor, strokesColor, highlightStrokesColor, bgColor, bgLinesColor, crossesColor) {
         this.ctx = ctx;
         this.familyTree = familyTree;
         this.canvasScale = canvasScale;
@@ -9,6 +9,7 @@ class TreeBuilder
         this.yGapBtwnBrothers = yGapBtwnBrothers;
         this.extraYGapBtwnCousins = extraYGapBtwnCousins;
         this.xGapBtwnFrames = xGapBtwnFrames;
+        this.lineWidth = lineWidth;
         this.defaultColor = defaultColor;
         this.highlightColor = highlightColor;
         this.linesColor = linesColor;
@@ -29,7 +30,7 @@ class TreeBuilder
 
     drawTree() {
         this.drawFamily(this.ancestor, this.defaultColor, this.highlightColor, this.highlightTextColor, this.highlightStrokesColor);
-        this.drawLines(this.familyTree.indis, this.linesColor);
+        this.drawLines(this.familyTree.indis, this.linesColor, this.lineWidth);
         this.drawStrokes(this.familyTree.indis, this.strokesColor);
         this.drawNames(this.familyTree.indis, this.textColor);
         this.familyTree.indis.forEach(indi => {
@@ -144,7 +145,7 @@ class TreeBuilder
     setTextSettings() {
         this.ctx.textAlign = "center";
         this.ctx.textBaseline = 'middle';
-        this.ctx.font = 20 * this.canvasScale + "px arial";
+        this.ctx.font = "bold " + 18 * this.canvasScale + "px arial";
     }
 
     configure() {
