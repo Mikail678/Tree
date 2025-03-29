@@ -159,18 +159,20 @@ class FamilyTree
 
     calcXY(indi, levelX, levelY, levelYMax, firstChild) {
         indi.x = levelX[indi.generation];
-        if (indi.father != null)
-            indi.y = Math.max(levelY[indi.generation], indi.father.y, levelYMax[0]);
-        else
-            indi.y = levelY[indi.generation];
+        if (indi.children.length == 0)
+            levelYMax[0] += this.yGapBtwnBrothers + this.boxHeight;
+            indi.y = levelYMax[0];
+            // indi.y = Math.max(levelY[indi.generation], indi.father.y, levelYMax[0]);
+        // else
+        //     indi.y = levelYMax[0];
         
         // extra gap between cousins
         if (firstChild == true)
             if (levelY[indi.generation] < indi.y + this.extraYGapBtwnCousins)
                 levelY[indi.generation] = indi.y + this.extraYGapBtwnCousins;
         
-        // if (levelYMax[0] < indi.y)
-        //     levelYMax[0] = indi.y;
+        if (levelYMax[0] < indi.y)
+            levelYMax[0] = indi.y;
         
         firstChild = true;
         indi.children.forEach((child) => {
@@ -178,11 +180,11 @@ class FamilyTree
             firstChild = false;
         });
         
-        indi.updateY(levelY);
+        indi.updateY();
         
         // gap between brothers
-        if (levelY[indi.generation] < indi.y + boxHeight + this.yGapBtwnBrothers)
-            levelY[indi.generation] = indi.y + boxHeight + this.yGapBtwnBrothers;
+        // if (levelY[indi.generation] < indi.y + this.boxHeight + this.yGapBtwnBrothers)
+        //     levelY[indi.generation] = indi.y + this.boxHeight + this.yGapBtwnBrothers;
     }
 
     calcXwidth() {
