@@ -1,7 +1,7 @@
 const boxHeight = 25;
 const boxLength = 200;
 const yGapBtwnBrothers = 5;
-const extraYGapBtwnCousins = 10;
+const extraYGapBtwnCousins = 20;
 const xGapBtwnFrames = 20;
 const lineWidth = 1.5;
 
@@ -9,7 +9,7 @@ const cnvXOffset = 250;
 const cnvYOffset = 100;
 const cnvPassiveXOffset = 8;
 const cnvPassiveYOffset = 8;
-const maxScale = 0.8;
+const maxScale = 1;
 
 const highlightColor = "#00FF00";
 const defaultColor = "#FFFFFF";
