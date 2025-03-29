@@ -51,14 +51,16 @@ class CanvasController
             let checkClickFlag = this.checkClick(indi, xVal, yVal);
             const newIndiNameInput = this.document.getElementById('newIndiNameInput');
             if (checkClickFlag == 1) {
-                if (this.selectedIndi != null)
+                if (this.selectedIndi != null) {
                     this.unselect(this.selectedIndi, newIndiNameInput);
+                }
                 this.startEditName(indi, newIndiNameInput);
                 return;
             }
             else if (checkClickFlag == -1) {
-                if (this.selectedIndi.id == indi.id)
-                    this.unselect(this.selectedIndi, newIndiNameInput);
+                if (this.selectedIndi != null)
+                    if (this.selectedIndi.id == indi.id)
+                        this.unselect(this.selectedIndi, newIndiNameInput);
                 this.deleteIndi(indi, newIndiNameInput);
                 return;
             }
