@@ -1,241 +1,60 @@
-body {
-    background-color: rgb(238, 238, 238);
-}
-
-#scaleSlider {
-    position: fixed;
-    bottom: 110px;
-    right: 10px;
-    background-color: #FCFCFD;
-    border-radius: 4px;
-    border-width: 0;
-    box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,rgba(45, 35, 66, 0.3) 0 7px 13px -3px,#D6D6E7 0 -3px 0 inset;
-    box-sizing: border-box;
-    color: #36395A;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    outline: none;
-}
-
-.sidebar_active {
-    position: fixed;
-    top: 0;
-    left: 0px;
-    z-index: 100;
-    transition: all 0.2s ease;
-}
-
-.sidebar_passive {
-    position: fixed;
-    top: 0;
-    left: -35vh;
-    z-index: 100;
-    transition: all 0.2s ease;
-}
-
-#sidebarMain {
-    position: absolute;
-    top: 0;
-    left: 0px;
-    display: flex;
-    justify-content: first baseline;
-    flex-direction: column;
-    align-items: center;
-    background-color: rgb(237, 237, 237);
-    width: 35vh;
-    height: 100vh;
-    z-index: 100;
-    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    border: #bfbfbf;
-    border-right-style: solid;
-    border-right-width: 3px;
-}
-
-#sidebarIndiData {
-    background-color: rgb(218, 218, 218);
-    color: rgb(50, 50, 50);
-    border-radius: 10px;
-    left: 0%;
-    font-size: x-large;
-    padding: 10px;
-}
-
-#indiName {
-    padding-top: 2vh;
-    color: rgb(20, 20, 20);
-    font-size: xxx-large;
-    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-}
-
-#downloadFamilyBtn {
-    width: 90%;
-    text-align: center;
-}
-
-#editFamilyBtn {
-    margin-top: 1vh;
-    width: 90%;
-    text-align: center;
-}
-
-#updateBranchInput {
-    margin-top: 1vh;
-    display: none;
-}
-
-#updateBranchInputLabel {
-    margin-top: 1vh;
-    width: 90%;
-    text-align: center;
-}
-
-.defaultBtn {
-  align-items: center;
-  appearance: none;
-  background-color: #FCFCFD;
-  border-radius: 4px;
-  border-width: 0;
-  box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,rgba(45, 35, 66, 0.3) 0 7px 13px -3px,#D6D6E7 0 -3px 0 inset;
-  box-sizing: border-box;
-  color: #36395A;
-  cursor: pointer;
-  display: inline-flex;
-  font-family: "JetBrains Mono",monospace;
-  height: 48px;
-  justify-content: center;
-  line-height: 1;
-  list-style: none;
-  overflow: hidden;
-  padding-left: 16px;
-  padding-right: 16px;
-  position: relative;
-  text-align: left;
-  text-decoration: none;
-  transition: box-shadow .15s,transform .15s;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  white-space: nowrap;
-  will-change: box-shadow,transform;
-  font-size: 18px;
-  outline: none;
-}
-
-.defaultBtn:focus {
-  box-shadow: #D6D6E7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
-}
-
-.defaultBtn:hover {
-  box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
-  transform: translateY(-2px);
-}
-
-.defaultBtn:active {
-  box-shadow: #D6D6E7 0 3px 7px inset;
-  transform: translateY(2px);
-}
-
-#toggleSidebarBtn {
-    position: absolute;
-    width: 5vh;
-    height: 5vh;
-    left: 34.5vh;
-    color: red;
-    z-index: 100;
-    background-color: white;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    margin-top: 15px;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-    cursor: pointer;
-    box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,rgba(45, 35, 66, 0.3) 0 7px 13px -3px,#D6D6E7 0 -3px 0 inset;
-    transition: all 0.1s;
-}
-
-#toggleSidebarBtn:hover {
-    transition: all 0.2s ease;
-}
-
-#toggleSidebarBtnImg {
-    left: 0px;
-    width: 5vh;
-    height: 5vh;
-}
-
-#toggleSidebarBtnImg:hover {
-    transition: all 0.2s ease;
-    transform: translateX(2px);
-}
-
-.toggleSidebarBtnImg_passive {
-    position: absolute;
-    left: 35vh;
-    color: red;
-    transition: all 0.2s ease;
-    z-index: 100;
-    rotate: 360deg;
-}
-
-.toggleSidebarBtnImg_active {
-    position: absolute;
-    left: 35vh;
-    color: red;
-    z-index: 100;
-    transition: all 0.2s ease;
-    rotate: 180deg;
-}
-
-#canvas {
-    margin: 0px;
-}
-
-#searchIndiContent {
-    position: fixed;
-    display: flex;
-    justify-content: first baseline;
-    flex-direction: row;
-    align-items: center;
-    bottom: 10px;
-    right: 10px;
-    gap: 2px;
-}
-
-#clearHighlightedIndis {
-    position: fixed;
-    bottom: 60px;
-    right: 10px;
-}
-
-.file-upload-container {
-    position: fixed;
-    top: calc(50% - 60px);
-    left: calc(50% - 172px);
-    border: 2px dashed rgba(28, 22, 41, 0.6);
-    padding: 20px;
-    text-align: center;
-    font-size: 16px;
-    color: #36395A;
-    background-color: #FCFCFD;
-    width: 300px;
-    height: 15px;
-    margin: 20px auto;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-.file-upload-container:hover {
-    background-color: #e1e1e1;
-}
-
-.file-upload-container p {
-    margin: 0;
-}
-
-.file-upload-container input[type="file"] {
-    display: none;
-}
-
-.file-upload-container.dragging {
-    background-color: #e0f7fa;
-}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+    <link rel="shortcut icon" type="image/x-icon" href="icon.png" />
+    <link rel="stylesheet" href="main.css">
+    <title>Tree</title>
+</head>
+<body oncontextmenu="return false">
+    <div id="content">
+        <div id="fileUploadContainer" class="file-upload-container">
+            <p>Choose a .ged file or drag it here</p>
+            <input type="file" id="file-selector" accept=".ged" style="display:none;">
+        </div>
+        <canvas id="canvas" width="0" height="0"></canvas>
+    </div>
+    <div id="scaleSlider">
+        <input id="scale" type="range" class="slider" min="5" max="100" value="80">
+    </div>
+    <div id="clearHighlightedIndis">
+        <button id="clearHighlightedIndisBtn" class="defaultBtn">Сбросить выбранных людей</button>
+    </div>
+    <div id="searchIndiContent">
+        <input id="indiSearchInputName" type="text" placeholder="Имя человека" class="defaultBtn">
+        <button id="nextFoundIndiBtn" class="defaultBtn">Следующий</button>
+    </div>
+    <div id="sidebar" class="sidebar_passive">
+        <div id="sidebarMain">
+            <div id="indiName">Неизвестно</div>
+            <hr style="width: 80%; color:rgb(226, 226, 226);">
+            <div id="sidebarIndiData">
+                <div id="indiId">id: неизвестно</div>
+                <div id="indiGeneration">Поколение: неизвестно</div>
+                <div id="indiFather">Отец: неизвестно</div>
+                <div id="indiBirthDate">Дата рождения: неизвестно</div>
+                <div id="indiDeathDate">Дата смерти: неизвестно</div>
+            </div>
+            <hr style="width: 80%; color:rgb(226, 226, 226);">
+            <button id="downloadFamilyBtn" class="defaultBtn">Скачать ветку</button>
+            <button id="editFamilyBtn" class="defaultBtn">Редактировать ветку</button>
+            
+            <label id="updateBranchInputLabel" class="defaultBtn">
+                <input type="file" id="updateBranchInput" data-buttonText="Заменить ветку" title="" accept=".ged" class="defaultBtn">
+                Заменить ветку
+            </label>
+        </div>
+        <div id="toggleSidebarBtn">
+            <img id="toggleSidebarBtnImg" class="toggleSidebarBtnImg_passive" src="toggle_sidebar.png">
+        </div>
+    </div>
+    <script src="Parameters.js"></script>
+    <script src="Indi.js"></script>
+    <script src="CanvasController.js"></script>
+    <script src="FamilyTree.js"></script>
+    <script src="TreeBuilder.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
