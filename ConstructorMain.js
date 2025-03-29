@@ -1,6 +1,7 @@
 let scaleSlider = document.getElementById("scale");
 let newIndiNameInput = document.getElementById("newIndiNameInput");
 let toggleModeBtn = document.getElementById("toggleModeBtn");
+let toggleSidebarBtn = document.getElementById("toggleSidebarBtn");
 let saveBtn = document.getElementById("saveBtn");
 
 let ctx = canvas.getContext("2d");
@@ -11,9 +12,10 @@ let canvasLeft = canvas.offsetLeft;
 let canvasTop = canvas.offsetTop;
 
 let familyTree = new FamilyTree(xGapBtwnFrames, yGapBtwnBrothers, extraYGapBtwnCousins, boxLength, boxHeight);
-let treeBuilder = new TreeBuilder(ctx, familyTree, canvasScale, boxHeight, boxLength, yGapBtwnBrothers, extraYGapBtwnCousins, xGapBtwnFrames, defaultColor, highlightColor, linesColor, highlightLinesColor, textColor, highlightTextColor, strokesColor, highlightStrokesColor, bgColor, bgLinesColor, crossesColor);
+let treeBuilder = new TreeBuilder(ctx, familyTree, canvasScale, boxHeight, boxLength, yGapBtwnBrothers, extraYGapBtwnCousins, xGapBtwnFrames, lineWidth, defaultColor, highlightColor, linesColor, highlightLinesColor, textColor, highlightTextColor, strokesColor, highlightStrokesColor, bgColor, bgLinesColor, crossesColor);
 let canvasController = new CanvasController(document, canvas, ctx, treeBuilder, familyTree, cnvXOffset, cnvYOffset, cnvPassiveXOffset, cnvPassiveYOffset, canvasScale, maxScale);
 
+toggleSidebarBtn.onclick = function() {toggleSidebar()};
 canvas.onclick = function(e) {
     canvasController.handleMouseDown(e)
 }
@@ -53,6 +55,11 @@ toggleModeBtn.onclick = function() {
 }
 newIndiNameInput.style.left = '-1000px';
 saveBtn.disabled = true;
+
+addEventListener("keydown", (e) => {
+    if (document.activeElement.id != "newIndiNameInput" & (e.key.toLowerCase() === 's' || e.key.toLowerCase() === 'ы'))
+        toggleSidebar();
+});
 
 let text = localStorage.getItem('textForConstructor');
 parse(text);
@@ -107,5 +114,14 @@ function changeIndiName(indi, newIndiNameInput) {
         }
         canvasController.selectedIndi = null;
         canvasController.drawTree();
+    }
+}
+
+function toggleSidebar() {
+    if (sidebar.className.endsWith("_passive")) {
+        canvasController.openSidebar();
+    }
+    else if (sidebar.className.endsWith("_active")) {
+        canvasController.closeSidebar();
     }
 }
