@@ -47,7 +47,7 @@ addEventListener("keydown", (e) => {
 });
 
 canvasController.disableNextFoundIndiBtn(nextFoundIndiBtn);
-hideButtons();
+hideInterface();
 
 let familyBranch = new FamilyTree(xGapBtwnFrames, yGapBtwnBrothers, extraYGapBtwnCousins, boxLength, boxHeight);
 
@@ -113,7 +113,7 @@ function parse(file, familyTree) {
             const lines = familyTree.splitOnLines(text);
             familyTree.setIndis(lines);
             drawTree();
-            showButtons();
+            showInterface();
         }
     }
 }
@@ -134,20 +134,22 @@ function drawTree() {
     canvasController.drawTree();
 }
 
-function showButtons() {
-    toggleSidebarBtn.style.display = "block";
-    nextFoundIndiBtn.style.display = "block";
-    scaleSlider.style.display = "block";
-    clearHighlightedIndisBtn.style.display = "block";
-    indiSearchInputName.style.display = "block";
-}
-
-function hideButtons() {
+function hideInterface() {
+    sidebar.style.display = "none";
     toggleSidebarBtn.style.display = "none";
     nextFoundIndiBtn.style.display = "none";
     scaleSlider.style.display = "none";
     clearHighlightedIndisBtn.style.display = "none";
     indiSearchInputName.style.display = "none";
+}
+
+function showInterface() {
+    sidebar.style.display = "block";
+    toggleSidebarBtn.style.display = "block";
+    nextFoundIndiBtn.style.display = "block";
+    scaleSlider.style.display = "block";
+    clearHighlightedIndisBtn.style.display = "block";
+    indiSearchInputName.style.display = "block";
 }
 
 function updateScales(newScale) {
