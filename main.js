@@ -23,7 +23,7 @@ let canvasLeft = canvas.offsetLeft;
 let canvasTop = canvas.offsetTop;
 
 let familyTree = new FamilyTree(xGapBtwnFrames, yGapBtwnBrothers, extraYGapBtwnCousins, boxLength, boxHeight);
-let treeBuilder = new TreeBuilder(ctx, familyTree, canvasScale, boxHeight, boxLength, yGapBtwnBrothers, extraYGapBtwnCousins, xGapBtwnFrames, defaultColor, highlightColor, linesColor, highlightLinesColor, textColor, highlightTextColor, strokesColor, highlightStrokesColor, bgColor, bgLinesColor, crossesColor);
+let treeBuilder = new TreeBuilder(ctx, familyTree, canvasScale, boxHeight, boxLength, yGapBtwnBrothers, extraYGapBtwnCousins, xGapBtwnFrames, lineWidth, defaultColor, highlightColor, linesColor, highlightLinesColor, textColor, highlightTextColor, strokesColor, highlightStrokesColor, bgColor, bgLinesColor, crossesColor);
 let canvasController = new CanvasController(document, canvas, ctx, treeBuilder, familyTree, cnvXOffset, cnvYOffset, cnvPassiveXOffset, cnvPassiveYOffset, canvasScale, maxScale);
 
 canvas.onclick = function(e) {canvasController.handleMouseDown(e, "leftMouse")};
@@ -39,7 +39,7 @@ addEventListener("keydown", (e) => {
     if (document.activeElement.id != "indiSearchInputName" && (e.key.toLowerCase() === 's' || e.key.toLowerCase() === 'ы'))
         toggleSidebar();
     if (e.key.toLocaleLowerCase() === 'enter') {
-        if (canvasController.lastSearchedName != indiSearchInputName.value)
+        if (canvasController.lastSearchedName != indiSearchInputName.value & indiSearchInputName.value != "")
             searchIndiFrameByName(indiSearchInputName.value);
         else if (canvasController.lastSearchedName != "")
             nextFoundIndi();
@@ -112,8 +112,7 @@ function parse(file, familyTree) {
         if (text != undefined) {
             const lines = familyTree.splitOnLines(text);
             familyTree.setIndis(lines);
-            drawTree();
-            showInterface();
+            run();
         }
     }
 }
@@ -127,6 +126,13 @@ function downloadFamily(ancestor, familyTree) {
     link.download = ancestor.name+".ged";
     link.click();
     URL.revokeObjectURL(link.href);
+}
+
+function run() {
+    drawTree();
+    showInterface();
+    canvasController.updateSidebar(null);
+    console.log(familyTree.indis.length);
 }
 
 function drawTree() {
@@ -162,6 +168,7 @@ function searchIndiFrameByName(name) {
 }
 
 function clearHighlightedIndis() {
+    canvasController.unselectIndi();
     canvasController.clearHighlightedIndis();
 }
 
