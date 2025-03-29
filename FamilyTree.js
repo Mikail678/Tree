@@ -217,6 +217,10 @@ class FamilyTree
             indiText += "1 FAMS @"+indi.id+"@\n";
         if (indi.father != undefined & indi.father != null)
             indiText += "1 FAMC @"+indi.father.id+"@\n";
+        if (indi.birthDate != "Неизвестно")
+            indiText += "1 BIRT\n" + "2 DATE " + indi.birthDate + "\n";
+        if (indi.deathDate != "Неизвестно")
+            indiText += "1 DEAT\n" + "2 DATE " + indi.deathDate + "\n";
         
         return indiText;
     }
