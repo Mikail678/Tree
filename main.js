@@ -187,7 +187,7 @@ function nextFoundIndi() {
 
 function openFamilyConstructor(ancestor) {
     localStorage.setItem('textForConstructor', familyTree.unloadBranchToFile(ancestor));
-    window.open('http://127.0.0.1:5500/Tree1/ConstructorMain.html');
+    window.open('http://mikail678.github.io/Tree/ConstructorMain.html');
 }
 
 // window.addEventListener('wheel', function(event) {
