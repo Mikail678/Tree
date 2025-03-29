@@ -6,7 +6,7 @@ const xGapBtwnFrames = 20;
 const lineWidth = 1.5;
 
 const cnvXOffset = 250;
-const cnvYOffset = 100;
+const cnvYOffset = 200;
 const cnvPassiveXOffset = 8;
 const cnvPassiveYOffset = 8;
 const maxScale = 1;
