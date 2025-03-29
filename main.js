@@ -63,7 +63,7 @@ updateBranchInput.onchange = function() {
         if (text != undefined) {
             const lines = familyTree.splitOnLines(text);
             familyBranch.setIndis(lines);
-            familyTree.concat2FamilyTrees(familyTree, familyBranch);
+            familyTree.concat2FamilyTrees(familyTree, familyBranch, canvasController.selectedIndi);
             downloadFamily(familyTree.getAncestor(), familyTree);
         }
     }
