@@ -3,6 +3,7 @@ const boxLength = 200;
 const yGapBtwnBrothers = 5;
 const extraYGapBtwnCousins = 10;
 const xGapBtwnFrames = 20;
+const lineWidth = 1.5;
 
 const cnvXOffset = 250;
 const cnvYOffset = 100;
