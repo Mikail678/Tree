@@ -286,7 +286,7 @@ class CanvasController
 
     setCanvasSizesAndBounds() {
         const newWidth = this.treeBuilder.treeBounds[0] * this.canvasScale;
-        const newHeight = this.treeBuilder.treeBounds[1] * this.canvasScale + 100;
+        const newHeight = this.treeBuilder.treeBounds[1] * this.canvasScale;
         this.canvas.width = newWidth + this.cnvXOffset > window.innerWidth ? newWidth + this.cnvXOffset : window.innerWidth;
         this.canvas.height = newHeight + this.cnvYOffset > window.innerHeight ? newHeight + this.cnvYOffset : window.innerHeight;
         this.canvasLeft = this.cnvPassiveXOffset;
