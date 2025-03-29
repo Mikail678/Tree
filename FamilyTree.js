@@ -274,21 +274,31 @@ class FamilyTree
         return [maxX, minX, maxY, minY];
     }
 
-    concat2FamilyTrees(mainFamilyTree, childFamilyTree) {
+    concat2FamilyTrees(mainFamilyTree, childFamilyTree, indi) {
         let childAncestor = childFamilyTree.getAncestor();
         if (childAncestor == null)
             return;
-        if (mainFamilyTree.getIndiById(childAncestor.id) == "None")
-            return;
+        // if (mainFamilyTree.getIndiById(childAncestor.id) == "None")
+        //     return;
+
+        if (indi.father != null) {
+            childAncestor.father = indi.father;
+            for (let i = 0; i < indi.father.children.length; i++) {
+                if (indi.father.children[i].id == indi.id) {
+                    indi.father.children[i] = childAncestor;
+                    break;
+                }
+            }
+        }
         
         let mainAncestor = mainFamilyTree.getAncestor();
-        let branch_members = mainFamilyTree.getFamilyMembers(mainAncestor, [mainAncestor], childAncestor);
-        mainFamilyTree.getIndiById(childAncestor.id).children = childAncestor.children;
+        let branch_members = mainFamilyTree.getFamilyMembers(mainAncestor, [mainAncestor], indi);
+        // mainFamilyTree.getIndiById(childAncestor.id).children = childAncestor.children;
         
         childFamilyTree.getFamilyMembers(childAncestor, [childAncestor], null).forEach(member => {
-            if (member.id != childAncestor.id)
-                branch_members.push(member);
+            branch_members.push(member);
         });
+        
 
         this.indis = branch_members;
     }
