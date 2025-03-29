@@ -158,6 +158,7 @@ class TreeBuilder
         let maxX = this.getMaxLevelX();
         let maxY = this.getMaxLevelY();
         this.treeBounds = [maxX, maxY];
+        this.levelYMax = [0];
     }
     
     getMaxLevelY() {
