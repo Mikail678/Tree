@@ -54,18 +54,13 @@ class CanvasController
 
             if (click == "leftMouse") {
                 if (indi.name == "") return;
+                this.unselectIndi();
                 this.clearHighlightedIndis();
-                this.selectedIndi = indi;
-                this.currentHighlightedIndiIndex = i;
+                this.selectIndi(indi);
                 this.highlightedIndis.push(indi);
-                indi.highlighted = true;
-                this.treeBuilder.highlightIndi(indi, this.treeBuilder.highlightColor, this.treeBuilder.highlightTextColor, this.treeBuilder.highlightStrokesColor);
-                // if (this.sidebar.className.endsWith("_passive")) {
-                //     this.openSidebar();
-                // }
-                this.updateSidebar(indi);
             }
             else if (click == "rightMouse") {
+                this.clearHighlightedIndis();
                 this.treeBuilder.highlightIndis(this.relationPathMembers, this.treeBuilder.defaultColor, this.treeBuilder.textColor, this.treeBuilder.strokesColor);
                 this.relationPathMembers = [];
                 if (this.selectedIndi == null) return;
@@ -106,6 +101,9 @@ class CanvasController
         let indiFatherText = (indi == null ? "Неизвестно" : (indi.ancestor == true ? "Неизвестно" : indi.father.name));
         let indiBirthDateText = (indi == null ? "Неизвестно" : indi.birthDate);
         let indiDeathDateText = (indi == null ? "Неизвестно" : indi.deathDate);
+        let downloadFamilyBtnDisplay = (indi == null ? "none" : "block");
+        let editFamilyBtnDisplay = (indi == null ? "none" : "block");
+        let updateBranchInputLabelDisplay = (indi == null ? "none" : "inline-flex");
 
         this.document.getElementById("indiName").innerText = indiNameText;
         this.document.getElementById("indiId").innerText = "id: " + indiIdText;
@@ -113,6 +111,9 @@ class CanvasController
         this.document.getElementById("indiFather").innerText = "Отец: " + indiFatherText;
         this.document.getElementById("indiBirthDate").innerText = "Дата рождения: " + indiBirthDateText;
         this.document.getElementById("indiDeathDate").innerText = "Дата смерти: " + indiDeathDateText;
+        this.document.getElementById("downloadFamilyBtn").style.display = downloadFamilyBtnDisplay;
+        this.document.getElementById("editFamilyBtn").style.display = editFamilyBtnDisplay;
+        this.document.getElementById("updateBranchInputLabel").style.display = updateBranchInputLabelDisplay;
     }
 
     openSidebar() {
@@ -128,13 +129,8 @@ class CanvasController
     searchIndisByName(name) {
         this.lastSearchedName = name;
         if (this.highlightedIndis.length > 0) {
-            let indi = this.familyTree.indis[this.currentHighlightedIndiIndex];
-            this.familyTree.getFamilyMembers(indi, [indi]).forEach(member => {
-                member.highlighted = false;
-            });
-            this.highlightFamily(this.familyTree.indis[this.currentHighlightedIndiIndex], this.treeBuilder.defaultColor, this.treeBuilder.linesColor, this.treeBuilder.strokesColor, this.treeBuilder.linesColor, 1);
-            this.highlightedIndis = [];
-            this.currentHighlightedIndiIndex = -1;
+            this.unselectIndi();
+            this.clearHighlightedIndis(false);
         }
 
         this.familyTree.indis.forEach(indi => {
@@ -151,32 +147,97 @@ class CanvasController
             this.enableNextFoundIndiBtn(button);
             return;
         }
-        this.lastSearchedName = "";
         alert("С именем " + name + " не был найден ни один человек");
+
+        this.lastSearchedName = "";
         this.disableNextFoundIndiBtn(button);
+        this.document.getElementById("indiSearchInputName").value = "";
+        this.unselectIndi();
+        this.clearHighlightedIndis();
+    }
+
+    selectIndi(indi) {
+        if (this.selectedIndi != null) {
+            this.unselectIndi();
+            return;
+        }
+        this.selectedIndi = indi;
+        this.selectedIndi.highlighted = true;
+        this.treeBuilder.highlightIndi(indi, this.treeBuilder.highlightColor, this.treeBuilder.highlightTextColor, this.treeBuilder.highlightStrokesColor);
+        this.updateSidebar(indi);
     }
 
     unselectIndi() {
         if (this.selectedIndi == null) {
             return;
         }
+        this.selectedIndi.highlighted = false;
         this.selectedIndi = null;
-        this.clearHighlightedIndis();
+        this.updateSidebar(null);
     }
 
-    clearHighlightedIndis() {
+    clearHighlightedIndis(resetSearchData=true) {
+        if (resetSearchData) {
+            this.lastSearchedName = "";
+            this.disableNextFoundIndiBtn(this.document.getElementById("nextFoundIndiBtn"));
+            this.document.getElementById("indiSearchInputName").value = "";
+        }
+
+        this.familyTree.indis.forEach(indi => {
+            indi.highlighted = false;
+        });
+
+        if (this.currentHighlightedIndiIndex != -1) {
+            this.highlightFamily(this.highlightedIndis[this.currentHighlightedIndiIndex], this.treeBuilder.defaultColor, this.treeBuilder.textColor, this.treeBuilder.strokesColor, this.treeBuilder.linesColor, 1);
+            this.currentHighlightedIndiIndex = -1;
+        }
         if (this.highlightedIndis.length > 0) {
             this.highlightedIndis.forEach(member => {
                 member.highlighted = false;
                 this.treeBuilder.highlightIndi(member, this.treeBuilder.defaultColor, this.treeBuilder.linesColor, this.treeBuilder.strokesColor, this.treeBuilder.linesColor, 1);
             });
             this.highlightedIndis = [];
+            if (this.selectedIndi != null) {
+                this.highlightedIndis.push(this.selectedIndi);
+                this.selectedIndi.highlighted = true;
+            }
         }
-        this.currentHighlightedIndiIndex = -1;
-        // if (this.sidebar.className.endsWith("_active")) {
-        //     this.closeSidebar();
-        // }
-        this.updateSidebar(null);
+    }
+
+    nextFoundIndi() {
+        if (this.currentHighlightedIndiIndex != -1) {
+            let indi = this.highlightedIndis[this.currentHighlightedIndiIndex];
+            this.unselectIndi();
+            this.familyTree.getFamilyMembers(indi, [indi]).forEach(member => {
+                member.highlighted = false;
+            });
+            // this.treeBuilder.highlightIndi(indi, this.treeBuilder.defaultColor, this.treeBuilder.linesColor, this.treeBuilder.strokesColor, this.treeBuilder.linesColor, 1);
+            this.highlightFamily(indi, this.treeBuilder.defaultColor, this.treeBuilder.textColor, this.treeBuilder.strokesColor, this.treeBuilder.linesColor, 1);
+        }
+        
+        if (this.currentHighlightedIndiIndex < this.highlightedIndis.length-1)
+            this.currentHighlightedIndiIndex += 1;
+        else 
+            this.currentHighlightedIndiIndex = 0;
+
+        const indi = this.highlightedIndis[this.currentHighlightedIndiIndex];
+        this.selectIndi(indi, this.currentHighlightedIndiIndex);
+        let [maxX, minX, maxY, minY] = this.familyTree.getFamilyBounds(indi, 0, 1000000, 0, 1000000);
+        const newScale = this.calcScaleToFitBranch(maxX, minX, maxY, minY);
+        this.treeBuilder.updateCanvasScale(newScale);
+
+        this.familyTree.getFamilyMembers(indi, [indi]).forEach(member => {
+            member.highlighted = true;
+        });
+
+        if (newScale != this.canvasScale) {
+            this.scale(newScale);
+            this.document.getElementById("scale").value = newScale * 100;
+        }
+        else
+            this.highlightFamily(indi, this.treeBuilder.highlightColor, this.treeBuilder.highlightTextColor, this.treeBuilder.highlightStrokesColor, this.treeBuilder.highlightLinesColor, 2);
+
+        this.scrollToIndi(maxX, minX, maxY, minY);
     }
 
     compareNames(name1, name2) {
@@ -196,39 +257,6 @@ class CanvasController
         }
 
         return false;
-    }
-
-    nextFoundIndi() {
-        if (this.currentHighlightedIndiIndex != -1) {
-            let indi = this.highlightedIndis[this.currentHighlightedIndiIndex];
-            this.familyTree.getFamilyMembers(indi, [indi]).forEach(member => {
-                member.highlighted = false;
-            });
-            this.highlightFamily(indi, this.treeBuilder.defaultColor, this.treeBuilder.textColor, this.treeBuilder.strokesColor, this.treeBuilder.linesColor, 1);
-        }
-        
-        if (this.currentHighlightedIndiIndex < this.highlightedIndis.length-1)
-            this.currentHighlightedIndiIndex += 1;
-        else 
-            this.currentHighlightedIndiIndex = 0;
-
-        const indi = this.highlightedIndis[this.currentHighlightedIndiIndex];
-        let [maxX, minX, maxY, minY] = this.familyTree.getFamilyBounds(indi, 0, 1000000, 0, 1000000);
-        const newScale = this.calcScaleToFitBranch(maxX, minX, maxY, minY);
-        this.treeBuilder.updateCanvasScale(newScale);
-
-        this.familyTree.getFamilyMembers(indi, [indi]).forEach(member => {
-            member.highlighted = true;
-        });
-
-        if (newScale != this.canvasScale) {
-            this.scale(newScale);
-            this.document.getElementById("scale").value = newScale * 100;
-        }
-        else
-            this.highlightFamily(indi, this.treeBuilder.highlightColor, this.treeBuilder.highlightTextColor, this.treeBuilder.highlightStrokesColor, this.treeBuilder.highlightLinesColor, 2);
-
-        this.scrollToIndi(maxX, minX, maxY, minY);
     }
 
     scrollToIndi(maxX, minX, maxY, minY) {
