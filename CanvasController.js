@@ -111,9 +111,12 @@ class CanvasController
         this.document.getElementById("indiFather").innerText = "Отец: " + indiFatherText;
         this.document.getElementById("indiBirthDate").innerText = "Дата рождения: " + indiBirthDateText;
         this.document.getElementById("indiDeathDate").innerText = "Дата смерти: " + indiDeathDateText;
-        this.document.getElementById("downloadFamilyBtn").style.display = downloadFamilyBtnDisplay;
-        this.document.getElementById("editFamilyBtn").style.display = editFamilyBtnDisplay;
-        this.document.getElementById("updateBranchInputLabel").style.display = updateBranchInputLabelDisplay;
+        // this.document.getElementById("downloadFamilyBtn").style.display = downloadFamilyBtnDisplay;
+        // this.document.getElementById("editFamilyBtn").style.display = editFamilyBtnDisplay;
+        // this.document.getElementById("updateBranchInputLabel").style.display = updateBranchInputLabelDisplay;
+        this.document.getElementById("downloadFamilyBtn").style.display = "none";
+        this.document.getElementById("editFamilyBtn").style.display = "none";
+        this.document.getElementById("updateBranchInputLabel").style.display = "none";
     }
 
     openSidebar() {
