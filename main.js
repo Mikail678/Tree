@@ -32,7 +32,7 @@ scaleSlider.oninput = function() {if (scaleSlider.value/100 != canvasController.
 nextFoundIndiBtn.onclick = function() {nextFoundIndi()};
 toggleSidebarBtn.onclick = function() {toggleSidebar()};
 downloadFamilyBtn.onclick = function() {downloadFamily(canvasController.selectedIndi, familyTree)};
-editFamilyBtn.onclick = function() {openFamilyConstructor(canvasController.selectedIndi)}; 
+editFamilyBtn.onclick = function() {openFamilyConstructor(canvasController.selectedIndi)};
 clearHighlightedIndisBtn.onclick = function() {clearHighlightedIndis()};
 
 addEventListener("keydown", (e) => {
@@ -94,12 +94,31 @@ fileSelector.addEventListener('change', () => {
     handleFileUpload(files);
 });
 
+loadLocalGedFile();
+
 function handleFileUpload(files) {
     if (files.length > 0) {
         fileSelector.remove();
         fileUploadContainer.remove();
         let file = files[0];
         parse(file, familyTree);
+    }
+}
+
+function loadLocalGedFile() {
+    fetch("tree.ged")
+        .then(response => response.text())
+        .then(text => {
+            parseGedText(text, familyTree);
+        })
+        .catch(err => console.error("Ошибка загрузки .ged файла:", err));
+}
+
+function parseGedText(text, familyTree) {
+    if (text != undefined) {
+        const lines = familyTree.splitOnLines(text);
+        familyTree.setIndis(lines);
+        run();
     }
 }
 
@@ -189,6 +208,12 @@ function openFamilyConstructor(ancestor) {
     localStorage.setItem('textForConstructor', familyTree.unloadBranchToFile(ancestor));
     window.open('http://mikail678.github.io/Tree/ConstructorMain.html');
 }
+
+downloadFamilyBtn.style.display = "none";
+editFamilyBtn.style.display = "none";
+updateBranchInput.style.display = "none";
+fileSelector.style.display = "none";
+fileUploadContainer.style.display = "none";
 
 // window.addEventListener('wheel', function(event) {
 //     if (event.deltaY > 0) {
