@@ -61,8 +61,31 @@ addEventListener("keydown", (e) => {
         toggleSidebar();
 });
 
-let text = localStorage.getItem('textForConstructor');
-parse(text);
+// let text = localStorage.getItem('textForConstructor');
+// parse(text);
+
+
+//############
+    loadLocalGedFile();
+
+    function loadLocalGedFile() {
+        fetch("tree0.ged")
+            .then(response => response.text())
+            .then(text => {
+                parseGedText(text, familyTree);
+            })
+            .catch(err => console.error("Ошибка загрузки .ged файла:", err));
+    }
+
+    function parseGedText(text, familyTree) {
+        if (text != undefined) {
+            const lines = familyTree.splitOnLines(text);
+            familyTree.setIndis(lines);
+            enterEditMode();
+        }
+    }
+//############
+
 
 function parse(text) {
     if (text != null) {
